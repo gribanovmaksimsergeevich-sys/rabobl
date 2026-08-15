@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Рабочий Дашборд</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 20% 20%, #1a1f35 0%, #0c0e17 100%);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.08);
+      --primary: #6366f1;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #f43f5e;
+      --accent-violet: #a855f7;
+      --accent-cyan: #06b6d4;
+      --accent-indigo: #818cf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .search-wrapper {
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 20px 13px 44px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      width: 18px;
+      height: 18px;
+    }
+
+    .section {
+      margin-bottom: 35px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--card-border);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      background: var(--card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-domain {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow-icon {
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    .card:hover .arrow-icon {
+      opacity: 1;
+      transform: translateX(0);
+      color: #fff;
+    }
+
+    /* Цветовые акценты */
+    .bg-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+    .bg-emerald { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); }
+    .bg-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); }
+    .bg-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+    .bg-violet { background: rgba(168, 85, 247, 0.15); color: var(--accent-violet); }
+    .bg-cyan { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+    .bg-indigo { background: rgba(129, 140, 248, 0.15); color: var(--accent-indigo); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Панель Инструментов</h1>
+      <div class="search-wrapper">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск сервиса..." oninput="filterCards()" autofocus>
+      </div>
+    </header>
+
+    <!-- Сервисы и Аналитика -->
+    <div class="section">
+      <div class="section-title">Сервисы и Приложения</div>
+      <div class="grid">
+        <a href="https://script.google.com/macros/s/AKfycbzHjBwro8kxOGtZsIExLgLSCpXfXz4T7_lUUoaMgEs1bVBCdZqvFCJ5jfIbQCGOEV-zGQ/exec" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-indigo">📈</div>
+            <div class="card-info">
+              <span class="card-title">Дашборд АКП | Супервайзеры & Аналитика</span>
+              <span class="card-domain">script.google.com</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="http://ttkdep.tilda.ws/startpage" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-violet">🎓</div>
+            <div class="card-info">
+              <span class="card-title">Обучение</span>
+              <span class="card-domain">ttkdep.tilda.ws</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://mb2c.ttk.ru/" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-cyan">✉️</div>
+            <div class="card-info">
+              <span class="card-title">Почта ТТК</span>
+              <span class="card-domain">mb2c.ttk.ru</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://20vatc006325-001.cloudpbx.ttk.ru/#/not-exist" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-blue">📞</div>
+            <div class="card-info">
+              <span class="card-title">ВАТС</span>
+              <span class="card-domain">cloudpbx.ttk.ru</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://uber.ttk.ru/" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-blue">🚗</div>
+            <div class="card-info">
+              <span class="card-title">ForaPP</span>
+              <span class="card-domain">uber.ttk.ru</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://gribanovmaksimsergeevich-sys.github.io/dayler1/" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-blue">📱</div>
+            <div class="card-info">
+              <span class="card-title">Звонилка</span>
+              <span class="card-domain">github.io</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://gribanovmaksimsergeevich-sys.github.io/sv/?clckid=dee2a2ea" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-rose">🎯</div>
+            <div class="card-info">
+              <span class="card-title">Контроль Маши</span>
+              <span class="card-domain">github.io</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://maxkoch23.github.io/itmstat/" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-emerald">📊</div>
+            <div class="card-info">
+              <span class="card-title">Статистика ИТМ</span>
+              <span class="card-domain">github.io</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://gribanovmaksimsergeevich-sys.github.io/raskydka/index.html" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-amber">⚡</div>
+            <div class="card-info">
+              <span class="card-title">Раскидка</span>
+              <span class="card-domain">github.io</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Google Таблицы -->
+    <div class="section">
+      <div class="section-title">Таблицы Google</div>
+      <div class="grid">
+        <a href="https://docs.google.com/spreadsheets/d/1M7tjHqBRMdNnHRmA64QJniG_h2aG33w6T892Esu2Q0o/edit?usp=sharing" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-emerald">🔁</div>
+            <div class="card-info">
+              <span class="card-title">Перезвоны</span>
+              <span class="card-domain">docs.google.com</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/spreadsheets/d/1GZWZlWAz1BCdCiqWPMU5qKUMeGlYTA_QcMc4ZQjaHng/edit?usp=sharing" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-emerald">📋</div>
+            <div class="card-info">
+              <span class="card-title">Полотно</span>
+              <span class="card-domain">docs.google.com</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://docs.google.com/spreadsheets/d/1c6f6be73pozhXnQUtHu8rWjbMPEYt0dtNzRib0cJoRs/edit?usp=sharing" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-emerald">🗄️</div>
+            <div class="card-info">
+              <span class="card-title">База</span>
+              <span class="card-domain">docs.google.com</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- CRM Системы -->
+    <div class="section">
+      <div class="section-title">CRM Системы</div>
+      <div class="grid">
+        <a href="https://onyma-crm.ttk.ru:4443/onyma/" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-amber">💼</div>
+            <div class="card-info">
+              <span class="card-title">Онима</span>
+              <span class="card-domain">onyma-crm.ttk.ru</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+
+        <a href="https://kttk-onyma-crm.ttk.ru/onyma/" target="_blank" class="card">
+          <div class="card-content">
+            <div class="icon-box bg-amber">🌐</div>
+            <div class="card-info">
+              <span class="card-title">Онима ТТК</span>
+              <span class="card-domain">kttk-onyma-crm.ttk.ru</span>
+            </div>
+          </div>
+          <span class="arrow-icon">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterCards() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      const sections = document.querySelectorAll('.section');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').innerText.toLowerCase();
+        const domain = card.querySelector('.card-domain').innerText.toLowerCase();
+        const match = title.includes(query) || domain.includes(query);
+        card.style.display = match ? 'flex' : 'none';
+      });
+
+      sections.forEach(section => {
+        const visibleCards = section.querySelectorAll('.card[style*="display: flex"]');
+        if (query === '') {
+          section.style.display = 'block';
+        } else {
+          section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
