@@ -17,12 +17,25 @@
       --primary-hover: #4f46e5;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+
+      /* Неоновые цвета */
       --accent-blue: #38bdf8;
+      --glow-blue: rgba(56, 189, 248, 0.55);
+
       --accent-emerald: #34d399;
+      --glow-emerald: rgba(52, 211, 153, 0.55);
+
       --accent-amber: #fbbf24;
+      --glow-amber: rgba(251, 191, 36, 0.55);
+
       --accent-rose: #f43f5e;
+      --glow-rose: rgba(244, 63, 94, 0.55);
+
       --accent-violet: #a855f7;
+      --glow-violet: rgba(168, 85, 247, 0.55);
+
       --accent-indigo: #818cf8;
+      --glow-indigo: rgba(129, 140, 248, 0.55);
     }
 
     * {
@@ -50,13 +63,13 @@
     }
 
     header h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       letter-spacing: -0.5px;
       background: linear-gradient(135deg, #fff 40%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     .top-controls {
@@ -64,18 +77,20 @@
       justify-content: center;
       align-items: center;
       gap: 12px;
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
+      flex-wrap: wrap;
     }
 
     .search-wrapper {
       flex: 1;
+      min-width: 240px;
       position: relative;
     }
 
     .search-input {
       width: 100%;
-      padding: 13px 20px 13px 44px;
+      padding: 12px 20px 12px 44px;
       border-radius: 12px;
       border: 1px solid var(--card-border);
       background: rgba(255, 255, 255, 0.05);
@@ -83,12 +98,12 @@
       color: #fff;
       font-size: 0.95rem;
       outline: none;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .search-input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
       background: rgba(255, 255, 255, 0.08);
     }
 
@@ -102,24 +117,53 @@
       height: 18px;
     }
 
-    .btn-add {
-      padding: 13px 20px;
+    .btn-action {
+      padding: 12px 18px;
       border-radius: 12px;
-      background: var(--primary);
-      color: #fff;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: background 0.2s ease, transform 0.15s ease;
+      transition: all 0.2s ease;
       white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-add {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
     }
 
     .btn-add:hover {
       background: var(--primary-hover);
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-save-file {
+      background: rgba(52, 211, 153, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    .btn-save-file:hover {
+      background: rgba(52, 211, 153, 0.25);
+      box-shadow: 0 0 18px var(--glow-emerald);
+      transform: translateY(-1px);
+    }
+
+    .btn-copy-code {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-copy-code:hover {
+      background: rgba(255, 255, 255, 0.15);
       transform: translateY(-1px);
     }
 
@@ -128,30 +172,31 @@
     }
 
     .section-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       color: var(--text-muted);
-      margin-bottom: 15px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.9px;
     }
 
     .section-title::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--card-border);
+      background: linear-gradient(90deg, var(--card-border) 0%, transparent 100%);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 18px;
     }
 
+    /* Интерактивная карточка с неоновой подсветкой */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -162,16 +207,46 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(8px);
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      overflow: hidden;
     }
 
+    /* Неоновые эффекты карточки при наведении */
     .card:hover {
-      background: var(--card-hover);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+      transform: translateY(-4px) scale(1.01);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .card.neon-indigo:hover {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 20px -2px var(--glow-indigo), inset 0 0 12px rgba(129, 140, 248, 0.15);
+    }
+
+    .card.neon-violet:hover {
+      border-color: var(--accent-violet);
+      box-shadow: 0 0 20px -2px var(--glow-violet), inset 0 0 12px rgba(168, 85, 247, 0.15);
+    }
+
+    .card.neon-blue:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px -2px var(--glow-blue), inset 0 0 12px rgba(56, 189, 248, 0.15);
+    }
+
+    .card.neon-emerald:hover {
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 20px -2px var(--glow-emerald), inset 0 0 12px rgba(52, 211, 153, 0.15);
+    }
+
+    .card.neon-amber:hover {
+      border-color: var(--accent-amber);
+      box-shadow: 0 0 20px -2px var(--glow-amber), inset 0 0 12px rgba(251, 191, 36, 0.15);
+    }
+
+    .card.neon-rose:hover {
+      border-color: var(--accent-rose);
+      box-shadow: 0 0 20px -2px var(--glow-rose), inset 0 0 12px rgba(244, 63, 94, 0.15);
     }
 
     .card-content {
@@ -182,14 +257,19 @@
     }
 
     .icon-box {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover .icon-box {
+      transform: scale(1.08);
     }
 
     .card-info {
@@ -209,7 +289,7 @@
     .card-domain {
       font-size: 0.75rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -224,13 +304,13 @@
 
     .btn-edit {
       opacity: 0;
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
       cursor: pointer;
-      border-radius: 6px;
-      padding: 4px 6px;
-      font-size: 0.8rem;
+      border-radius: 8px;
+      padding: 5px 7px;
+      font-size: 0.85rem;
       transition: all 0.2s ease;
     }
 
@@ -239,8 +319,8 @@
     }
 
     .btn-edit:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1);
     }
 
     .arrow-icon {
@@ -257,13 +337,13 @@
       color: #fff;
     }
 
-    /* Цветовые ярлыки */
-    .bg-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
-    .bg-emerald { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); }
-    .bg-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); }
-    .bg-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
-    .bg-violet { background: rgba(168, 85, 247, 0.15); color: var(--accent-violet); }
-    .bg-indigo { background: rgba(129, 140, 248, 0.15); color: var(--accent-indigo); }
+    /* Цвета ярлыков иконок */
+    .bg-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2); }
+    .bg-emerald { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); box-shadow: inset 0 0 10px rgba(52, 211, 153, 0.2); }
+    .bg-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.2); }
+    .bg-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); box-shadow: inset 0 0 10px rgba(244, 63, 94, 0.2); }
+    .bg-violet { background: rgba(168, 85, 247, 0.15); color: var(--accent-violet); box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.2); }
+    .bg-indigo { background: rgba(129, 140, 248, 0.15); color: var(--accent-indigo); box-shadow: inset 0 0 10px rgba(129, 140, 248, 0.2); }
 
     /* Модальное окно */
     .modal-overlay {
@@ -272,7 +352,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       display: none;
       align-items: center;
@@ -286,17 +366,17 @@
     }
 
     .modal {
-      background: #151928;
-      border: 1px solid var(--card-border);
+      background: #141824;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 16px;
       width: 100%;
       max-width: 480px;
       padding: 28px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8), 0 0 30px rgba(99, 102, 241, 0.2);
     }
 
     .modal h2 {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       margin-bottom: 20px;
       color: #fff;
     }
@@ -325,28 +405,31 @@
 
     .form-control:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
     }
 
     .tag-palette {
       display: flex;
-      gap: 10px;
-      margin-top: 6px;
+      gap: 12px;
+      margin-top: 8px;
     }
 
     .tag-choice {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       cursor: pointer;
       border: 2px solid transparent;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s ease;
     }
 
     .tag-choice.selected {
       border-color: #fff;
-      transform: scale(1.1);
+      transform: scale(1.15);
+      box-shadow: 0 0 12px currentColor;
     }
 
     .modal-footer {
@@ -383,6 +466,22 @@
     
     .btn-danger:hover {
       background: rgba(244, 63, 94, 0.3);
+      box-shadow: 0 0 12px var(--glow-rose);
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #1e293b;
+      color: #fff;
+      border: 1px solid var(--accent-emerald);
+      box-shadow: 0 0 20px var(--glow-emerald);
+      padding: 12px 20px;
+      border-radius: 10px;
+      display: none;
+      z-index: 200;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -398,7 +497,9 @@
           </svg>
           <input type="text" id="searchInput" class="search-input" placeholder="Поиск сервиса..." oninput="filterCards()" autofocus>
         </div>
-        <button class="btn-add" onclick="openModal()">+ Добавить</button>
+        <button class="btn-action btn-add" onclick="openModal()">+ Добавить</button>
+        <button class="btn-action btn-save-file" onclick="exportPermanentHtml()" title="Скачать готовый HTML с сохраненными данными">💾 Скачать HTML</button>
+        <button class="btn-action btn-copy-code" onclick="copyPermanentCode()" title="Скопировать весь HTML код страницы">📋 Скопировать код</button>
       </div>
     </header>
 
@@ -438,14 +539,14 @@
       </div>
 
       <div class="form-group">
-        <label>Цвет ярлыка</label>
+        <label>Цвет неонового ярлыка</label>
         <div class="tag-palette" id="tagPalette">
-          <div class="tag-choice bg-indigo selected" data-color="bg-indigo">●</div>
-          <div class="tag-choice bg-violet" data-color="bg-violet">●</div>
-          <div class="tag-choice bg-blue" data-color="bg-blue">●</div>
-          <div class="tag-choice bg-emerald" data-color="bg-emerald">●</div>
-          <div class="tag-choice bg-amber" data-color="bg-amber">●</div>
-          <div class="tag-choice bg-rose" data-color="bg-rose">●</div>
+          <div class="tag-choice bg-indigo selected" data-color="indigo">●</div>
+          <div class="tag-choice bg-violet" data-color="violet">●</div>
+          <div class="tag-choice bg-blue" data-color="blue">●</div>
+          <div class="tag-choice bg-emerald" data-color="emerald">●</div>
+          <div class="tag-choice bg-amber" data-color="amber">●</div>
+          <div class="tag-choice bg-rose" data-color="rose">●</div>
         </div>
       </div>
 
@@ -453,32 +554,34 @@
         <button type="button" class="btn-danger" id="btnDelete" onclick="deleteCard()" style="display: none;">Удалить</button>
         <div class="btn-group-right">
           <button type="button" class="btn-secondary" onclick="closeModal()">Отмена</button>
-          <button type="button" class="btn-add" onclick="saveCard()">Сохранить</button>
+          <button type="button" class="btn-action btn-add" onclick="saveCard()">Сохранить</button>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    const INITIAL_CARDS = [
-      { id: '1', category: 'Сервисы и Приложения', title: 'Дашборд АКП | Супервайзеры & Аналитика', url: 'http://e904955v.beget.tech/', domain: 'script.google.com', icon: '📈', tag: 'bg-indigo' },
-      { id: '2', category: 'Сервисы и Приложения', title: 'Обучение', url: 'http://ttkdep.tilda.ws/startpage', domain: 'ttkdep.tilda.ws', icon: '🎓', tag: 'bg-violet' },
-      { id: '3', category: 'Сервисы и Приложения', title: 'ВАТС', url: 'https://20vatc006325-001.cloudpbx.ttk.ru/#/not-exist', domain: 'cloudpbx.ttk.ru', icon: '📞', tag: 'bg-blue' },
-      { id: '4', category: 'Сервисы и Приложения', title: 'Прием заявок', url: 'http://studyinternet.ru/', domain: 'github.io', icon: '📱', tag: 'bg-blue' },
-      { id: '5', category: 'Сервисы и Приложения', title: 'Звонилка', url: 'https://gribanovmaksimsergeevich-sys.github.io/dayler1/', domain: 'github.io', icon: '📱', tag: 'bg-blue' },
-      { id: '6', category: 'Сервисы и Приложения', title: 'Контроль Маши', url: 'https://gribanovmaksimsergeevich-sys.github.io/sv/?clckid=dee2a2ea', domain: 'github.io', icon: '🎯', tag: 'bg-rose' },
-      { id: '7', category: 'Сервисы и Приложения', title: 'Перезвоны', url: 'https://gribanovmaksimsergeevich-sys.github.io/recall/', domain: 'github.io', icon: '🎯', tag: 'bg-rose' },
-      { id: '8', category: 'Сервисы и Приложения', title: 'Статистика ИТМ', url: 'http://80.87.193.155/', domain: 'github.io', icon: '📊', tag: 'bg-emerald' },
-      { id: '9', category: 'Сервисы и Приложения', title: 'НДС калькулятор', url: 'https://gribanovmaksimsergeevich-sys.github.io/ndscalc/', domain: 'github.io', icon: '📊', tag: 'bg-emerald' },
-      { id: '10', category: 'Сервисы и Приложения', title: 'Раскидка', url: 'https://gribanovmaksimsergeevich-sys.github.io/raskydka/index.html', domain: 'github.io', icon: '⚡', tag: 'bg-amber' },
-      { id: '11', category: 'Таблицы Google', title: 'Перезвоны', url: 'https://docs.google.com/spreadsheets/d/1M7tjHqBRMdNnHRmA64QJniG_h2aG33w6T892Esu2Q0o/edit?usp=sharing', domain: 'docs.google.com', icon: '🔁', tag: 'bg-emerald' },
-      { id: '12', category: 'Таблицы Google', title: 'Владимир партнер', url: 'https://docs.google.com/spreadsheets/d/13pgx_QE8W363m47kCmtUB_HedHSc1y_HtL-URw7K5Eo/edit?gid=0#gid=0', domain: 'docs.google.com', icon: '🔁', tag: 'bg-emerald' },
-      { id: '13', category: 'Таблицы Google', title: 'Полотно', url: 'https://docs.google.com/spreadsheets/d/1GZWZlWAz1BCdCiqWPMU5qKUMeGlYTA_QcMc4ZQjaHng/edit?usp=sharing', domain: 'docs.google.com', icon: '📋', tag: 'bg-emerald' },
-      { id: '14', category: 'Таблицы Google', title: 'База', url: 'https://docs.google.com/spreadsheets/d/1c6f6be73pozhXnQUtHu8rWjbMPEYt0dtNzRib0cJoRs/edit?usp=sharing', domain: 'docs.google.com', icon: '🗄️', tag: 'bg-emerald' }
+  <div class="notification" id="toast">Код скопирован в буфер обмена!</div>
+
+  <script id="dashboardScript">
+    /* ДАННЫЕ КАРТОЧЕК ВШИТЫ НАПРЯМУЮ В КОД */
+    let cards = [
+      { id: '1', category: 'Сервисы и Приложения', title: 'Дашборд АКП | Супервайзеры & Аналитика', url: 'http://e904955v.beget.tech/', domain: 'script.google.com', icon: '📈', tag: 'indigo' },
+      { id: '2', category: 'Сервисы и Приложения', title: 'Обучение', url: 'http://ttkdep.tilda.ws/startpage', domain: 'ttkdep.tilda.ws', icon: '🎓', tag: 'violet' },
+      { id: '3', category: 'Сервисы и Приложения', title: 'ВАТС', url: 'https://20vatc006325-001.cloudpbx.ttk.ru/#/not-exist', domain: 'cloudpbx.ttk.ru', icon: '📞', tag: 'blue' },
+      { id: '4', category: 'Сервисы и Приложения', title: 'Прием заявок', url: 'http://studyinternet.ru/', domain: 'github.io', icon: '📱', tag: 'blue' },
+      { id: '5', category: 'Сервисы и Приложения', title: 'Звонилка', url: 'https://gribanovmaksimsergeevich-sys.github.io/dayler1/', domain: 'github.io', icon: '📱', tag: 'blue' },
+      { id: '6', category: 'Сервисы и Приложения', title: 'Контроль Маши', url: 'https://gribanovmaksimsergeevich-sys.github.io/sv/?clckid=dee2a2ea', domain: 'github.io', icon: '🎯', tag: 'rose' },
+      { id: '7', category: 'Сервисы и Приложения', title: 'Перезвоны', url: 'https://gribanovmaksimsergeevich-sys.github.io/recall/', domain: 'github.io', icon: '🎯', tag: 'rose' },
+      { id: '8', category: 'Сервисы и Приложения', title: 'Статистика ИТМ', url: 'http://80.87.193.155/', domain: 'github.io', icon: '📊', tag: 'emerald' },
+      { id: '9', category: 'Сервисы и Приложения', title: 'НДС калькулятор', url: 'https://gribanovmaksimsergeevich-sys.github.io/ndscalc/', domain: 'github.io', icon: '📊', tag: 'emerald' },
+      { id: '10', category: 'Сервисы и Приложения', title: 'Раскидка', url: 'https://gribanovmaksimsergeevich-sys.github.io/raskydka/index.html', domain: 'github.io', icon: '⚡', tag: 'amber' },
+      { id: '11', category: 'Таблицы Google', title: 'Перезвоны', url: 'https://docs.google.com/spreadsheets/d/1M7tjHqBRMdNnHRmA64QJniG_h2aG33w6T892Esu2Q0o/edit?usp=sharing', domain: 'docs.google.com', icon: '🔁', tag: 'emerald' },
+      { id: '12', category: 'Таблицы Google', title: 'Владимир партнер', url: 'https://docs.google.com/spreadsheets/d/13pgx_QE8W363m47kCmtUB_HedHSc1y_HtL-URw7K5Eo/edit?gid=0#gid=0', domain: 'docs.google.com', icon: '🔁', tag: 'emerald' },
+      { id: '13', category: 'Таблицы Google', title: 'Полотно', url: 'https://docs.google.com/spreadsheets/d/1GZWZlWAz1BCdCiqWPMU5qKUMeGlYTA_QcMc4ZQjaHng/edit?usp=sharing', domain: 'docs.google.com', icon: '📋', tag: 'emerald' },
+      { id: '14', category: 'Таблицы Google', title: 'База', url: 'https://docs.google.com/spreadsheets/d/1c6f6be73pozhXnQUtHu8rWjbMPEYt0dtNzRib0cJoRs/edit?usp=sharing', domain: 'docs.google.com', icon: '🗄️', tag: 'emerald' }
     ];
 
-    let cards = JSON.parse(localStorage.getItem('dashboard_cards')) || INITIAL_CARDS;
-    let selectedTag = 'bg-indigo';
+    let selectedTag = 'indigo';
 
     document.querySelectorAll('.tag-choice').forEach(el => {
       el.addEventListener('click', () => {
@@ -487,11 +590,6 @@
         selectedTag = el.dataset.color;
       });
     });
-
-    function saveToStorage() {
-      localStorage.setItem('dashboard_cards', JSON.stringify(cards));
-      renderDashboard();
-    }
 
     function renderDashboard() {
       const container = document.getElementById('sectionsContainer');
@@ -520,20 +618,21 @@
 
         const catCards = cards.filter(c => (c.category || 'Общее') === cat);
         catCards.forEach(c => {
+          const cardTag = (c.tag || 'indigo').replace('bg-', '');
           const cardEl = document.createElement('a');
           cardEl.href = c.url;
           cardEl.target = '_blank';
-          cardEl.className = 'card';
+          cardEl.className = `card neon-${cardTag}`;
           cardEl.innerHTML = `
             <div class="card-content">
-              <div class="icon-box ${c.tag || 'bg-indigo'}">${c.icon || '🔗'}</div>
+              <div class="icon-box bg-${cardTag}">${c.icon || '🔗'}</div>
               <div class="card-info">
                 <span class="card-title">${c.title}</span>
                 <span class="card-domain">${c.domain || ''}</span>
               </div>
             </div>
             <div class="card-actions">
-              <button type="button" class="btn-edit" onclick="event.preventDefault(); event.stopPropagation(); editCard('${c.id}')">✏️</button>
+              <button type="button" class="btn-edit" title="Редактировать" onclick="event.preventDefault(); event.stopPropagation(); editCard('${c.id}')">✏️</button>
               <span class="arrow-icon">↗</span>
             </div>
           `;
@@ -559,7 +658,7 @@
         document.getElementById('cardUrl').value = card.url;
         document.getElementById('cardDomain').value = card.domain;
         document.getElementById('cardIcon').value = card.icon;
-        selectedTag = card.tag || 'bg-indigo';
+        selectedTag = (card.tag || 'indigo').replace('bg-', '');
         btnDelete.style.display = 'block';
       } else {
         document.getElementById('modalTitle').innerText = 'Добавить карточку';
@@ -569,7 +668,7 @@
         document.getElementById('cardUrl').value = '';
         document.getElementById('cardDomain').value = '';
         document.getElementById('cardIcon').value = '🔗';
-        selectedTag = 'bg-indigo';
+        selectedTag = 'indigo';
         btnDelete.style.display = 'none';
       }
 
@@ -627,16 +726,18 @@
         });
       }
 
-      saveToStorage();
+      renderDashboard();
       closeModal();
+      showToast('Карточка сохранена! Нажмите "💾 Скачать HTML", чтобы сохранить файл.');
     }
 
     function deleteCard() {
       const id = document.getElementById('cardId').value;
       if (id && confirm('Удалить эту карточку?')) {
         cards = cards.filter(c => c.id !== id);
-        saveToStorage();
+        renderDashboard();
         closeModal();
+        showToast('Карточка удалена! Нажмите "💾 Скачать HTML", чтобы обновить файл.');
       }
     }
 
@@ -662,7 +763,50 @@
       });
     }
 
-    // Закрытие по клику вне модалки
+    /* Генерация обновленного полного исходного кода страницы с актуальным массивом карточек */
+    function generateFullHtml() {
+      const cloneDoc = document.documentElement.cloneNode(true);
+      const scriptEl = cloneDoc.querySelector('#dashboardScript');
+      
+      const updatedScript = scriptEl.innerHTML.replace(
+        /let cards = \[[\s\S]*?\];/,
+        `let cards = ${JSON.stringify(cards, null, 2)};`
+      );
+      
+      scriptEl.innerHTML = updatedScript;
+      return '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
+    }
+
+    function exportPermanentHtml() {
+      const fullHtml = generateFullHtml();
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showToast('Файл index.html скачан с сохраненными данными!');
+    }
+
+    function copyPermanentCode() {
+      const fullHtml = generateFullHtml();
+      navigator.clipboard.writeText(fullHtml).then(() => {
+        showToast('Полный HTML-код скопирован в буфер обмена!');
+      }).catch(() => {
+        alert('Не удалось автоматически скопировать код.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+
+    // Закрытие по клику вне окна
     document.getElementById('modalOverlay').addEventListener('click', (e) => {
       if (e.target.id === 'modalOverlay') closeModal();
     });
