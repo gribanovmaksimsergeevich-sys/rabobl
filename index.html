@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 20% 20%, #1a1f35 0%, #0c0e17 100%);
@@ -18,7 +19,6 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
 
-      /* Неоновые цвета */
       --accent-blue: #38bdf8;
       --glow-blue: rgba(56, 189, 248, 0.55);
 
@@ -77,20 +77,18 @@
       justify-content: center;
       align-items: center;
       gap: 12px;
-      max-width: 800px;
+      max-width: 650px;
       margin: 0 auto;
-      flex-wrap: wrap;
     }
 
     .search-wrapper {
       flex: 1;
-      min-width: 240px;
       position: relative;
     }
 
     .search-input {
       width: 100%;
-      padding: 12px 20px 12px 44px;
+      padding: 13px 20px 13px 44px;
       border-radius: 12px;
       border: 1px solid var(--card-border);
       background: rgba(255, 255, 255, 0.05);
@@ -117,53 +115,26 @@
       height: 18px;
     }
 
-    .btn-action {
-      padding: 12px 18px;
+    .btn-add {
+      padding: 13px 22px;
       border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
       transition: all 0.2s ease;
       white-space: nowrap;
-      text-decoration: none;
-    }
-
-    .btn-add {
-      background: var(--primary);
-      color: #fff;
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.35);
     }
 
     .btn-add:hover {
       background: var(--primary-hover);
       box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
-      transform: translateY(-1px);
-    }
-
-    .btn-save-file {
-      background: rgba(52, 211, 153, 0.15);
-      color: var(--accent-emerald);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-    }
-
-    .btn-save-file:hover {
-      background: rgba(52, 211, 153, 0.25);
-      box-shadow: 0 0 18px var(--glow-emerald);
-      transform: translateY(-1px);
-    }
-
-    .btn-copy-code {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-main);
-      border: 1px solid var(--card-border);
-    }
-
-    .btn-copy-code:hover {
-      background: rgba(255, 255, 255, 0.15);
       transform: translateY(-1px);
     }
 
@@ -196,7 +167,6 @@
       gap: 18px;
     }
 
-    /* Интерактивная карточка с неоновой подсветкой */
     .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -210,10 +180,8 @@
       backdrop-filter: blur(10px);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
     }
 
-    /* Неоновые эффекты карточки при наведении */
     .card:hover {
       transform: translateY(-4px) scale(1.01);
       background: rgba(255, 255, 255, 0.06);
@@ -337,7 +305,7 @@
       color: #fff;
     }
 
-    /* Цвета ярлыков иконок */
+    /* Цвета ярлыков */
     .bg-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2); }
     .bg-emerald { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); box-shadow: inset 0 0 10px rgba(52, 211, 153, 0.2); }
     .bg-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.2); }
@@ -469,19 +437,11 @@
       box-shadow: 0 0 12px var(--glow-rose);
     }
 
-    .notification {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      background: #1e293b;
-      color: #fff;
-      border: 1px solid var(--accent-emerald);
-      box-shadow: 0 0 20px var(--glow-emerald);
-      padding: 12px 20px;
-      border-radius: 10px;
-      display: none;
-      z-index: 200;
-      font-size: 0.9rem;
+    .loader {
+      text-align: center;
+      padding: 50px;
+      color: var(--text-muted);
+      font-size: 1.1rem;
     }
   </style>
 </head>
@@ -497,13 +457,13 @@
           </svg>
           <input type="text" id="searchInput" class="search-input" placeholder="Поиск сервиса..." oninput="filterCards()" autofocus>
         </div>
-        <button class="btn-action btn-add" onclick="openModal()">+ Добавить</button>
-        <button class="btn-action btn-save-file" onclick="exportPermanentHtml()" title="Скачать готовый HTML с сохраненными данными">💾 Скачать HTML</button>
-        <button class="btn-action btn-copy-code" onclick="copyPermanentCode()" title="Скопировать весь HTML код страницы">📋 Скопировать код</button>
+        <button class="btn-add" onclick="openModal()">+ Добавить</button>
       </div>
     </header>
 
-    <div id="sectionsContainer"></div>
+    <div id="sectionsContainer">
+      <div class="loader">Загрузка данных из Supabase...</div>
+    </div>
   </div>
 
   <!-- Модальное окно создания/редактирования -->
@@ -554,33 +514,20 @@
         <button type="button" class="btn-danger" id="btnDelete" onclick="deleteCard()" style="display: none;">Удалить</button>
         <div class="btn-group-right">
           <button type="button" class="btn-secondary" onclick="closeModal()">Отмена</button>
-          <button type="button" class="btn-action btn-add" onclick="saveCard()">Сохранить</button>
+          <button type="button" class="btn-add" id="btnSave" onclick="saveCard()">Сохранить</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="notification" id="toast">Код скопирован в буфер обмена!</div>
+  <script>
+    // ВСТАВЬТЕ СЮДА ВАШИ ДАННЫЕ ИЗ НАСТРОЕК SUPABASE (Settings -> API)
+    const SUPABASE_URL = 'https://cjgwbgcfbiknooglglkk.supabase.co/rest/v1/';
+    const SUPABASE_ANON_KEY = 'sb_secret_9-p-irts9Mi1HAAHH3r8aQ_SzFzWl8o';
 
-  <script id="dashboardScript">
-    /* ДАННЫЕ КАРТОЧЕК ВШИТЫ НАПРЯМУЮ В КОД */
-    let cards = [
-      { id: '1', category: 'Сервисы и Приложения', title: 'Дашборд АКП | Супервайзеры & Аналитика', url: 'http://e904955v.beget.tech/', domain: 'script.google.com', icon: '📈', tag: 'indigo' },
-      { id: '2', category: 'Сервисы и Приложения', title: 'Обучение', url: 'http://ttkdep.tilda.ws/startpage', domain: 'ttkdep.tilda.ws', icon: '🎓', tag: 'violet' },
-      { id: '3', category: 'Сервисы и Приложения', title: 'ВАТС', url: 'https://20vatc006325-001.cloudpbx.ttk.ru/#/not-exist', domain: 'cloudpbx.ttk.ru', icon: '📞', tag: 'blue' },
-      { id: '4', category: 'Сервисы и Приложения', title: 'Прием заявок', url: 'http://studyinternet.ru/', domain: 'github.io', icon: '📱', tag: 'blue' },
-      { id: '5', category: 'Сервисы и Приложения', title: 'Звонилка', url: 'https://gribanovmaksimsergeevich-sys.github.io/dayler1/', domain: 'github.io', icon: '📱', tag: 'blue' },
-      { id: '6', category: 'Сервисы и Приложения', title: 'Контроль Маши', url: 'https://gribanovmaksimsergeevich-sys.github.io/sv/?clckid=dee2a2ea', domain: 'github.io', icon: '🎯', tag: 'rose' },
-      { id: '7', category: 'Сервисы и Приложения', title: 'Перезвоны', url: 'https://gribanovmaksimsergeevich-sys.github.io/recall/', domain: 'github.io', icon: '🎯', tag: 'rose' },
-      { id: '8', category: 'Сервисы и Приложения', title: 'Статистика ИТМ', url: 'http://80.87.193.155/', domain: 'github.io', icon: '📊', tag: 'emerald' },
-      { id: '9', category: 'Сервисы и Приложения', title: 'НДС калькулятор', url: 'https://gribanovmaksimsergeevich-sys.github.io/ndscalc/', domain: 'github.io', icon: '📊', tag: 'emerald' },
-      { id: '10', category: 'Сервисы и Приложения', title: 'Раскидка', url: 'https://gribanovmaksimsergeevich-sys.github.io/raskydka/index.html', domain: 'github.io', icon: '⚡', tag: 'amber' },
-      { id: '11', category: 'Таблицы Google', title: 'Перезвоны', url: 'https://docs.google.com/spreadsheets/d/1M7tjHqBRMdNnHRmA64QJniG_h2aG33w6T892Esu2Q0o/edit?usp=sharing', domain: 'docs.google.com', icon: '🔁', tag: 'emerald' },
-      { id: '12', category: 'Таблицы Google', title: 'Владимир партнер', url: 'https://docs.google.com/spreadsheets/d/13pgx_QE8W363m47kCmtUB_HedHSc1y_HtL-URw7K5Eo/edit?gid=0#gid=0', domain: 'docs.google.com', icon: '🔁', tag: 'emerald' },
-      { id: '13', category: 'Таблицы Google', title: 'Полотно', url: 'https://docs.google.com/spreadsheets/d/1GZWZlWAz1BCdCiqWPMU5qKUMeGlYTA_QcMc4ZQjaHng/edit?usp=sharing', domain: 'docs.google.com', icon: '📋', tag: 'emerald' },
-      { id: '14', category: 'Таблицы Google', title: 'База', url: 'https://docs.google.com/spreadsheets/d/1c6f6be73pozhXnQUtHu8rWjbMPEYt0dtNzRib0cJoRs/edit?usp=sharing', domain: 'docs.google.com', icon: '🗄️', tag: 'emerald' }
-    ];
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    let cards = [];
     let selectedTag = 'indigo';
 
     document.querySelectorAll('.tag-choice').forEach(el => {
@@ -591,11 +538,32 @@
       });
     });
 
+    async function loadCards() {
+      const { data, error } = await supabase
+        .from('dashboard_cards')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Ошибка загрузки:', error);
+        document.getElementById('sectionsContainer').innerHTML = `<div class="loader" style="color:var(--accent-rose);">Ошибка подключения к базе. Проверьте URL и ключ Supabase.</div>`;
+        return;
+      }
+
+      cards = data || [];
+      renderDashboard();
+    }
+
     function renderDashboard() {
       const container = document.getElementById('sectionsContainer');
       const datalist = document.getElementById('categoryOptions');
       container.innerHTML = '';
       datalist.innerHTML = '';
+
+      if (cards.length === 0) {
+        container.innerHTML = '<div class="loader">Нет сохраненных карточек. Нажмите "+ Добавить".</div>';
+        return;
+      }
 
       const categories = [...new Set(cards.map(c => c.category || 'Общее'))];
       categories.forEach(cat => {
@@ -688,7 +656,8 @@
       if (card) openModal(card);
     }
 
-    function saveCard() {
+    async function saveCard() {
+      const btn = document.getElementById('btnSave');
       const id = document.getElementById('cardId').value;
       const category = document.getElementById('cardCategory').value.trim() || 'Общее';
       const title = document.getElementById('cardTitleInput').value.trim();
@@ -709,36 +678,58 @@
         }
       }
 
-      if (id) {
-        const index = cards.findIndex(c => c.id === id);
-        if (index !== -1) {
-          cards[index] = { id, category, title, url, domain, icon, tag: selectedTag };
-        }
-      } else {
-        cards.push({
-          id: Date.now().toString(),
-          category,
-          title,
-          url,
-          domain,
-          icon,
-          tag: selectedTag
-        });
+      btn.disabled = true;
+      btn.innerText = 'Сохранение...';
+
+      const cardPayload = {
+        id: id || Date.now().toString(),
+        category,
+        title,
+        url,
+        domain,
+        icon,
+        tag: selectedTag
+      };
+
+      const { error } = await supabase
+        .from('dashboard_cards')
+        .upsert(cardPayload);
+
+      btn.disabled = false;
+      btn.innerText = 'Сохранить';
+
+      if (error) {
+        alert('Ошибка при сохранении: ' + error.message);
+        return;
       }
 
-      renderDashboard();
       closeModal();
-      showToast('Карточка сохранена! Нажмите "💾 Скачать HTML", чтобы сохранить файл.');
+      await loadCards();
     }
 
-    function deleteCard() {
+    async function deleteCard() {
       const id = document.getElementById('cardId').value;
-      if (id && confirm('Удалить эту карточку?')) {
-        cards = cards.filter(c => c.id !== id);
-        renderDashboard();
-        closeModal();
-        showToast('Карточка удалена! Нажмите "💾 Скачать HTML", чтобы обновить файл.');
+      if (!id || !confirm('Удалить эту карточку из базы?')) return;
+
+      const btn = document.getElementById('btnDelete');
+      btn.disabled = true;
+      btn.innerText = 'Удаление...';
+
+      const { error } = await supabase
+        .from('dashboard_cards')
+        .delete()
+        .eq('id', id);
+
+      btn.disabled = false;
+      btn.innerText = 'Удалить';
+
+      if (error) {
+        alert('Ошибка при удалении: ' + error.message);
+        return;
       }
+
+      closeModal();
+      await loadCards();
     }
 
     function filterCards() {
@@ -763,55 +754,11 @@
       });
     }
 
-    /* Генерация обновленного полного исходного кода страницы с актуальным массивом карточек */
-    function generateFullHtml() {
-      const cloneDoc = document.documentElement.cloneNode(true);
-      const scriptEl = cloneDoc.querySelector('#dashboardScript');
-      
-      const updatedScript = scriptEl.innerHTML.replace(
-        /let cards = \[[\s\S]*?\];/,
-        `let cards = ${JSON.stringify(cards, null, 2)};`
-      );
-      
-      scriptEl.innerHTML = updatedScript;
-      return '<!DOCTYPE html>\n' + cloneDoc.outerHTML;
-    }
-
-    function exportPermanentHtml() {
-      const fullHtml = generateFullHtml();
-      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'index.html';
-      a.click();
-      URL.revokeObjectURL(a.href);
-      showToast('Файл index.html скачан с сохраненными данными!');
-    }
-
-    function copyPermanentCode() {
-      const fullHtml = generateFullHtml();
-      navigator.clipboard.writeText(fullHtml).then(() => {
-        showToast('Полный HTML-код скопирован в буфер обмена!');
-      }).catch(() => {
-        alert('Не удалось автоматически скопировать код.');
-      });
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.innerText = msg;
-      toast.style.display = 'block';
-      setTimeout(() => {
-        toast.style.display = 'none';
-      }, 3500);
-    }
-
-    // Закрытие по клику вне окна
     document.getElementById('modalOverlay').addEventListener('click', (e) => {
       if (e.target.id === 'modalOverlay') closeModal();
     });
 
-    renderDashboard();
+    loadCards();
   </script>
 </body>
 </html>
