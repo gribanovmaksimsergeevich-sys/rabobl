@@ -521,11 +521,16 @@
   </div>
 
   <script>
-    // ВСТАВЬТЕ СЮДА ВАШИ ДАННЫЕ ИЗ НАСТРОЕК SUPABASE (Settings -> API)
     const SUPABASE_URL = 'https://cjgwbgcfbiknooglglkk.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_--dL7RLtl0PFLygDoUa9TA_jWH0BsTD';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Инициализация клиента без конфликта имен и без трекинга сессий
+    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false
+      }
+    });
 
     let cards = [];
     let selectedTag = 'indigo';
@@ -539,19 +544,27 @@
     });
 
     async function loadCards() {
-      const { data, error } = await supabase
-        .from('dashboard_cards')
-        .select('*')
-        .order('created_at', { ascending: true });
+      const container = document.getElementById('sectionsContainer');
+      container.innerHTML = '<div class="loader">Загрузка данных из Supabase...</div>';
 
-      if (error) {
-        console.error('Ошибка загрузки:', error);
-        document.getElementById('sectionsContainer').innerHTML = `<div class="loader" style="color:var(--accent-rose);">Ошибка подключения к базе. Проверьте URL и ключ Supabase.</div>`;
-        return;
+      try {
+        const { data, error } = await sbClient
+          .from('dashboard_cards')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (error) {
+          console.error('Ошибка Supabase:', error);
+          container.innerHTML = `<div class="loader" style="color:var(--accent-rose);">Ошибка базы: ${error.message}</div>`;
+          return;
+        }
+
+        cards = data || [];
+        renderDashboard();
+      } catch (err) {
+        console.error('Ошибка выполнения:', err);
+        container.innerHTML = `<div class="loader" style="color:var(--accent-rose);">Сбой подключения: ${err.message}</div>`;
       }
-
-      cards = data || [];
-      renderDashboard();
     }
 
     function renderDashboard() {
@@ -561,7 +574,7 @@
       datalist.innerHTML = '';
 
       if (cards.length === 0) {
-        container.innerHTML = '<div class="loader">Нет сохраненных карточек. Нажмите "+ Добавить".</div>';
+        container.innerHTML = '<div class="loader">Таблица пуста. Нажмите "+ Добавить", чтобы создать карточку.</div>';
         return;
       }
 
@@ -691,7 +704,7 @@
         tag: selectedTag
       };
 
-      const { error } = await supabase
+      const { error } = await sbClient
         .from('dashboard_cards')
         .upsert(cardPayload);
 
@@ -715,7 +728,7 @@
       btn.disabled = true;
       btn.innerText = 'Удаление...';
 
-      const { error } = await supabase
+      const { error } = await sbClient
         .from('dashboard_cards')
         .delete()
         .eq('id', id);
