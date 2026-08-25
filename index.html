@@ -14,6 +14,7 @@
       --card-border: rgba(255, 255, 255, 0.08);
       --card-hover: rgba(255, 255, 255, 0.08);
       --primary: #6366f1;
+      --primary-hover: #4f46e5;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --accent-blue: #38bdf8;
@@ -58,9 +59,17 @@
       margin-bottom: 15px;
     }
 
-    .search-wrapper {
-      max-width: 480px;
+    .top-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      max-width: 600px;
       margin: 0 auto;
+    }
+
+    .search-wrapper {
+      flex: 1;
       position: relative;
     }
 
@@ -91,6 +100,27 @@
       color: var(--text-muted);
       width: 18px;
       height: 18px;
+    }
+
+    .btn-add {
+      padding: 13px 20px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-add:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
     }
 
     .section {
@@ -135,7 +165,6 @@
       backdrop-filter: blur(8px);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
-      overflow: hidden;
     }
 
     .card:hover {
@@ -186,13 +215,40 @@
       text-overflow: ellipsis;
     }
 
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 8px;
+    }
+
+    .btn-edit {
+      opacity: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .card:hover .btn-edit {
+      opacity: 1;
+    }
+
+    .btn-edit:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
     .arrow-icon {
       color: var(--text-muted);
       opacity: 0;
       transform: translateX(-6px);
       transition: all 0.2s ease;
       flex-shrink: 0;
-      margin-left: 8px;
     }
 
     .card:hover .arrow-icon {
@@ -201,13 +257,133 @@
       color: #fff;
     }
 
-    /* Цветовые акценты */
+    /* Цветовые ярлыки */
     .bg-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
     .bg-emerald { background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald); }
     .bg-amber { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); }
     .bg-rose { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
     .bg-violet { background: rgba(168, 85, 247, 0.15); color: var(--accent-violet); }
     .bg-indigo { background: rgba(129, 140, 248, 0.15); color: var(--accent-indigo); }
+
+    /* Модальное окно */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #151928;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .modal h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    .tag-palette {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .tag-choice {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tag-choice.selected {
+      border-color: #fff;
+      transform: scale(1.1);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+    }
+
+    .btn-group-right {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      padding: 10px 18px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-danger {
+      padding: 10px 18px;
+      border-radius: 8px;
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-rose);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .btn-danger:hover {
+      background: rgba(244, 63, 94, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -215,189 +391,261 @@
   <div class="container">
     <header>
       <h1>Панель Инструментов</h1>
-      <div class="search-wrapper">
-        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-        </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Поиск сервиса..." oninput="filterCards()" autofocus>
+      <div class="top-controls">
+        <div class="search-wrapper">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Поиск сервиса..." oninput="filterCards()" autofocus>
+        </div>
+        <button class="btn-add" onclick="openModal()">+ Добавить</button>
       </div>
     </header>
 
-    <!-- Сервисы и Аналитика -->
-    <div class="section">
-      <div class="section-title">Сервисы и Приложения</div>
-      <div class="grid">
-        <a href="http://e904955v.beget.tech/" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-indigo">📈</div>
-            <div class="card-info">
-              <span class="card-title">Дашборд АКП | Супервайзеры & Аналитика</span>
-              <span class="card-domain">script.google.com</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+    <div id="sectionsContainer"></div>
+  </div>
 
-        <a href="http://ttkdep.tilda.ws/startpage" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-violet">🎓</div>
-            <div class="card-info">
-              <span class="card-title">Обучение</span>
-              <span class="card-domain">ttkdep.tilda.ws</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+  <!-- Модальное окно создания/редактирования -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 id="modalTitle">Добавить карточку</h2>
+      <input type="hidden" id="cardId">
 
-        <a href="https://20vatc006325-001.cloudpbx.ttk.ru/#/not-exist" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-blue">📞</div>
-            <div class="card-info">
-              <span class="card-title">ВАТС</span>
-              <span class="card-domain">cloudpbx.ttk.ru</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-        <a href="http://studyinternet.ru/" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-blue">📱</div>
-            <div class="card-info">
-              <span class="card-title">Прием заявок</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-        <a href="https://gribanovmaksimsergeevich-sys.github.io/dayler1/" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-blue">📱</div>
-            <div class="card-info">
-              <span class="card-title">Звонилка</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-        <a href="https://gribanovmaksimsergeevich-sys.github.io/sv/?clckid=dee2a2ea" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-rose">🎯</div>
-            <div class="card-info">
-              <span class="card-title">Контроль Маши</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-         <a href="https://gribanovmaksimsergeevich-sys.github.io/recall/" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-rose">🎯</div>
-            <div class="card-info">
-              <span class="card-title">Перезвоны</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-        <a href="http://80.87.193.155/" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-emerald">📊</div>
-            <div class="card-info">
-              <span class="card-title">Статистика ИТМ</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-         <a href="https://gribanovmaksimsergeevich-sys.github.io/ndscalc/" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-emerald">📊</div>
-            <div class="card-info">
-              <span class="card-title">НДС калькулятор</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
-
-        <a href="https://gribanovmaksimsergeevich-sys.github.io/raskydka/index.html" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-amber">⚡</div>
-            <div class="card-info">
-              <span class="card-title">Раскидка</span>
-              <span class="card-domain">github.io</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+      <div class="form-group">
+        <label>Категория</label>
+        <input type="text" id="cardCategory" class="form-control" placeholder="Сервисы и Приложения" list="categoryOptions">
+        <datalist id="categoryOptions"></datalist>
       </div>
-    </div>
 
-    <!-- Google Таблицы -->
-    <div class="section">
-      <div class="section-title">Таблицы Google</div>
-      <div class="grid">
-        <a href="https://docs.google.com/spreadsheets/d/1M7tjHqBRMdNnHRmA64QJniG_h2aG33w6T892Esu2Q0o/edit?usp=sharing" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-emerald">🔁</div>
-            <div class="card-info">
-              <span class="card-title">Перезвоны</span>
-              <span class="card-domain">docs.google.com</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" id="cardTitleInput" class="form-control" placeholder="Название сервиса">
+      </div>
 
-        
-        <a href="https://docs.google.com/spreadsheets/d/13pgx_QE8W363m47kCmtUB_HedHSc1y_HtL-URw7K5Eo/edit?gid=0#gid=0" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-emerald">🔁</div>
-            <div class="card-info">
-              <span class="card-title">Владимир партнер</span>
-              <span class="card-domain">docs.google.com</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+      <div class="form-group">
+        <label>Ссылка (URL)</label>
+        <input type="text" id="cardUrl" class="form-control" placeholder="https://example.com">
+      </div>
 
-        <a href="https://docs.google.com/spreadsheets/d/1GZWZlWAz1BCdCiqWPMU5qKUMeGlYTA_QcMc4ZQjaHng/edit?usp=sharing" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-emerald">📋</div>
-            <div class="card-info">
-              <span class="card-title">Полотно</span>
-              <span class="card-domain">docs.google.com</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+      <div class="form-group">
+        <label>Подзаголовок / Домен</label>
+        <input type="text" id="cardDomain" class="form-control" placeholder="github.io (оставьте пустым для авто)">
+      </div>
 
-        <a href="https://docs.google.com/spreadsheets/d/1c6f6be73pozhXnQUtHu8rWjbMPEYt0dtNzRib0cJoRs/edit?usp=sharing" target="_blank" class="card">
-          <div class="card-content">
-            <div class="icon-box bg-emerald">🗄️</div>
-            <div class="card-info">
-              <span class="card-title">База</span>
-              <span class="card-domain">docs.google.com</span>
-            </div>
-          </div>
-          <span class="arrow-icon">↗</span>
-        </a>
+      <div class="form-group">
+        <label>Иконка (Emoji)</label>
+        <input type="text" id="cardIcon" class="form-control" placeholder="📊" maxlength="4">
+      </div>
+
+      <div class="form-group">
+        <label>Цвет ярлыка</label>
+        <div class="tag-palette" id="tagPalette">
+          <div class="tag-choice bg-indigo selected" data-color="bg-indigo">●</div>
+          <div class="tag-choice bg-violet" data-color="bg-violet">●</div>
+          <div class="tag-choice bg-blue" data-color="bg-blue">●</div>
+          <div class="tag-choice bg-emerald" data-color="bg-emerald">●</div>
+          <div class="tag-choice bg-amber" data-color="bg-amber">●</div>
+          <div class="tag-choice bg-rose" data-color="bg-rose">●</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-danger" id="btnDelete" onclick="deleteCard()" style="display: none;">Удалить</button>
+        <div class="btn-group-right">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Отмена</button>
+          <button type="button" class="btn-add" onclick="saveCard()">Сохранить</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
+    const INITIAL_CARDS = [
+      { id: '1', category: 'Сервисы и Приложения', title: 'Дашборд АКП | Супервайзеры & Аналитика', url: 'http://e904955v.beget.tech/', domain: 'script.google.com', icon: '📈', tag: 'bg-indigo' },
+      { id: '2', category: 'Сервисы и Приложения', title: 'Обучение', url: 'http://ttkdep.tilda.ws/startpage', domain: 'ttkdep.tilda.ws', icon: '🎓', tag: 'bg-violet' },
+      { id: '3', category: 'Сервисы и Приложения', title: 'ВАТС', url: 'https://20vatc006325-001.cloudpbx.ttk.ru/#/not-exist', domain: 'cloudpbx.ttk.ru', icon: '📞', tag: 'bg-blue' },
+      { id: '4', category: 'Сервисы и Приложения', title: 'Прием заявок', url: 'http://studyinternet.ru/', domain: 'github.io', icon: '📱', tag: 'bg-blue' },
+      { id: '5', category: 'Сервисы и Приложения', title: 'Звонилка', url: 'https://gribanovmaksimsergeevich-sys.github.io/dayler1/', domain: 'github.io', icon: '📱', tag: 'bg-blue' },
+      { id: '6', category: 'Сервисы и Приложения', title: 'Контроль Маши', url: 'https://gribanovmaksimsergeevich-sys.github.io/sv/?clckid=dee2a2ea', domain: 'github.io', icon: '🎯', tag: 'bg-rose' },
+      { id: '7', category: 'Сервисы и Приложения', title: 'Перезвоны', url: 'https://gribanovmaksimsergeevich-sys.github.io/recall/', domain: 'github.io', icon: '🎯', tag: 'bg-rose' },
+      { id: '8', category: 'Сервисы и Приложения', title: 'Статистика ИТМ', url: 'http://80.87.193.155/', domain: 'github.io', icon: '📊', tag: 'bg-emerald' },
+      { id: '9', category: 'Сервисы и Приложения', title: 'НДС калькулятор', url: 'https://gribanovmaksimsergeevich-sys.github.io/ndscalc/', domain: 'github.io', icon: '📊', tag: 'bg-emerald' },
+      { id: '10', category: 'Сервисы и Приложения', title: 'Раскидка', url: 'https://gribanovmaksimsergeevich-sys.github.io/raskydka/index.html', domain: 'github.io', icon: '⚡', tag: 'bg-amber' },
+      { id: '11', category: 'Таблицы Google', title: 'Перезвоны', url: 'https://docs.google.com/spreadsheets/d/1M7tjHqBRMdNnHRmA64QJniG_h2aG33w6T892Esu2Q0o/edit?usp=sharing', domain: 'docs.google.com', icon: '🔁', tag: 'bg-emerald' },
+      { id: '12', category: 'Таблицы Google', title: 'Владимир партнер', url: 'https://docs.google.com/spreadsheets/d/13pgx_QE8W363m47kCmtUB_HedHSc1y_HtL-URw7K5Eo/edit?gid=0#gid=0', domain: 'docs.google.com', icon: '🔁', tag: 'bg-emerald' },
+      { id: '13', category: 'Таблицы Google', title: 'Полотно', url: 'https://docs.google.com/spreadsheets/d/1GZWZlWAz1BCdCiqWPMU5qKUMeGlYTA_QcMc4ZQjaHng/edit?usp=sharing', domain: 'docs.google.com', icon: '📋', tag: 'bg-emerald' },
+      { id: '14', category: 'Таблицы Google', title: 'База', url: 'https://docs.google.com/spreadsheets/d/1c6f6be73pozhXnQUtHu8rWjbMPEYt0dtNzRib0cJoRs/edit?usp=sharing', domain: 'docs.google.com', icon: '🗄️', tag: 'bg-emerald' }
+    ];
+
+    let cards = JSON.parse(localStorage.getItem('dashboard_cards')) || INITIAL_CARDS;
+    let selectedTag = 'bg-indigo';
+
+    document.querySelectorAll('.tag-choice').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.tag-choice').forEach(t => t.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedTag = el.dataset.color;
+      });
+    });
+
+    function saveToStorage() {
+      localStorage.setItem('dashboard_cards', JSON.stringify(cards));
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      const container = document.getElementById('sectionsContainer');
+      const datalist = document.getElementById('categoryOptions');
+      container.innerHTML = '';
+      datalist.innerHTML = '';
+
+      const categories = [...new Set(cards.map(c => c.category || 'Общее'))];
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        datalist.appendChild(opt);
+      });
+
+      categories.forEach(cat => {
+        const section = document.createElement('div');
+        section.className = 'section';
+
+        const title = document.createElement('div');
+        title.className = 'section-title';
+        title.innerText = cat;
+        section.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+
+        const catCards = cards.filter(c => (c.category || 'Общее') === cat);
+        catCards.forEach(c => {
+          const cardEl = document.createElement('a');
+          cardEl.href = c.url;
+          cardEl.target = '_blank';
+          cardEl.className = 'card';
+          cardEl.innerHTML = `
+            <div class="card-content">
+              <div class="icon-box ${c.tag || 'bg-indigo'}">${c.icon || '🔗'}</div>
+              <div class="card-info">
+                <span class="card-title">${c.title}</span>
+                <span class="card-domain">${c.domain || ''}</span>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button type="button" class="btn-edit" onclick="event.preventDefault(); event.stopPropagation(); editCard('${c.id}')">✏️</button>
+              <span class="arrow-icon">↗</span>
+            </div>
+          `;
+          grid.appendChild(cardEl);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+
+      filterCards();
+    }
+
+    function openModal(card = null) {
+      const modal = document.getElementById('modalOverlay');
+      const btnDelete = document.getElementById('btnDelete');
+      
+      if (card) {
+        document.getElementById('modalTitle').innerText = 'Редактировать карточку';
+        document.getElementById('cardId').value = card.id;
+        document.getElementById('cardCategory').value = card.category;
+        document.getElementById('cardTitleInput').value = card.title;
+        document.getElementById('cardUrl').value = card.url;
+        document.getElementById('cardDomain').value = card.domain;
+        document.getElementById('cardIcon').value = card.icon;
+        selectedTag = card.tag || 'bg-indigo';
+        btnDelete.style.display = 'block';
+      } else {
+        document.getElementById('modalTitle').innerText = 'Добавить карточку';
+        document.getElementById('cardId').value = '';
+        document.getElementById('cardCategory').value = '';
+        document.getElementById('cardTitleInput').value = '';
+        document.getElementById('cardUrl').value = '';
+        document.getElementById('cardDomain').value = '';
+        document.getElementById('cardIcon').value = '🔗';
+        selectedTag = 'bg-indigo';
+        btnDelete.style.display = 'none';
+      }
+
+      document.querySelectorAll('.tag-choice').forEach(t => {
+        t.classList.toggle('selected', t.dataset.color === selectedTag);
+      });
+
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    function editCard(id) {
+      const card = cards.find(c => c.id === id);
+      if (card) openModal(card);
+    }
+
+    function saveCard() {
+      const id = document.getElementById('cardId').value;
+      const category = document.getElementById('cardCategory').value.trim() || 'Общее';
+      const title = document.getElementById('cardTitleInput').value.trim();
+      const url = document.getElementById('cardUrl').value.trim();
+      let domain = document.getElementById('cardDomain').value.trim();
+      const icon = document.getElementById('cardIcon').value.trim() || '🔗';
+
+      if (!title || !url) {
+        alert('Заполните название и URL');
+        return;
+      }
+
+      if (!domain) {
+        try {
+          domain = new URL(url).hostname;
+        } catch {
+          domain = '';
+        }
+      }
+
+      if (id) {
+        const index = cards.findIndex(c => c.id === id);
+        if (index !== -1) {
+          cards[index] = { id, category, title, url, domain, icon, tag: selectedTag };
+        }
+      } else {
+        cards.push({
+          id: Date.now().toString(),
+          category,
+          title,
+          url,
+          domain,
+          icon,
+          tag: selectedTag
+        });
+      }
+
+      saveToStorage();
+      closeModal();
+    }
+
+    function deleteCard() {
+      const id = document.getElementById('cardId').value;
+      if (id && confirm('Удалить эту карточку?')) {
+        cards = cards.filter(c => c.id !== id);
+        saveToStorage();
+        closeModal();
+      }
+    }
+
     function filterCards() {
       const query = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
+      const cardsEls = document.querySelectorAll('.card');
       const sections = document.querySelectorAll('.section');
 
-      cards.forEach(card => {
+      cardsEls.forEach(card => {
         const title = card.querySelector('.card-title').innerText.toLowerCase();
         const domain = card.querySelector('.card-domain').innerText.toLowerCase();
         const match = title.includes(query) || domain.includes(query);
@@ -413,6 +661,13 @@
         }
       });
     }
+
+    // Закрытие по клику вне модалки
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'modalOverlay') closeModal();
+    });
+
+    renderDashboard();
   </script>
 </body>
 </html>
